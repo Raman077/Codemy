@@ -6,7 +6,11 @@ var secret = require('./config/secret');
 var engine = require('ejs-mate');
 const ejs = require('ejs');
 
+//initialise the express application
+
 const app = express();
+
+//connect to the mlab database
 
 mongoose.connect(secret.database, function(err){
 	if (err){
