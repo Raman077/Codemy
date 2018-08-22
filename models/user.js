@@ -3,8 +3,8 @@ const Schema = mongoose.Schema;
 
 car UserSchema = new Schema({
 	email : {type: String, unique: true, lowercase:true},
-	facebook :String,
-	token:Array,
+	twitter :String,
+	tokens:Array,
 
 	profile : {
 		name: {type: String, default: ''},
