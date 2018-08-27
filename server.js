@@ -9,6 +9,7 @@ const passport = require('passport');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const MongoStore = require('connect-mongo')(session);
+const flash = require('express-flash');
 
 //initialise the express application
 
@@ -32,18 +33,23 @@ app.set('view engine' ,'ejs');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(morgan('dev'));
-app.use(passport.initialise());
+app.use(passport.initialize());
 app.use(passport.session());
 app.use(cookieParser());
 app.use(session({
 	resave : true, 
 	saveUninitialized : true,
-	secret : secret.secretKey,
-	store: newMongoStore({url: secret.database, autoRedirect : true})
+	secret : "abc",
+	store: new MongoStore({url: secret.database, autoRedirect : true})
 }));
+app.use(flash());
+app.use(function(req, res, next){
+	res.locals.user = req.user;
+	next();
+})
 
 require('./routes/main')(app);
-require('./routes/user')
+require('./routes/user')(app);
 
 
 app.listen(8080, function(err){
@@ -52,6 +58,6 @@ app.listen(8080, function(err){
 		console.log(err);
 	}
 	else{
-		console.log("Running on port"+ secret.port);
+		console.log("Running on port: "+ secret.port);
 	}
 });
