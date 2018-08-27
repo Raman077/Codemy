@@ -9,7 +9,7 @@ const passport = require('passport');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const MongoStore = require('connect-mongo')(session);
-const flash = require('express-flash');
+const flash = require('connect-flash');
 
 //initialise the express application
 
@@ -46,7 +46,7 @@ app.use(flash());
 app.use(function(req, res, next){
 	res.locals.user = req.user;
 	next();
-})
+});
 
 require('./routes/main')(app);
 require('./routes/user')(app);
