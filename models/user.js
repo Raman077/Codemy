@@ -1,24 +1,21 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-var UserSchema = new Schema({
-	email : {type: String, unique: true, lowercase:true},
-	google :String,
-	tokens:Array,
+const userSchema = new Schema({
+    
+    email: {type: String, unique: true, lowercase: true},
+    profile: {
+        name: {type: String, default: ''},
+        picture: {type: String, default: ''}
+    },
 
-	profile : {
-		name: {type: String, default: ''},
-		picture : {type: String, default : ''}
-	},
+    coursesTeach: [{
+        course: {type: Schema.Types.ObjectId, ref: "Course"}
+    }],
 
-	coursesTeach: [{
-		course: {type: Schema.Types.ObjectId, ref: 'Course'}
-	}],
-
-	coursesTaken: [{
-		course: {type: Schema.Types.ObjectId, ref: 'Course'}
-	}],
-	
+    coursesTaken: [{
+        course: {type: Schema.Types.ObjectId, ref: "Course"}
+    }]
 });
 
-module.exports = mongoose.model('User', UserSchema);
+module.exports = mongoose.model('User', userSchema);
